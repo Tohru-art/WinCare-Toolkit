@@ -34,6 +34,32 @@ WinCare Toolkit is a PowerShell-based Windows maintenance and diagnostics utilit
 | Aggressive Cleanup | Uses shorter TEMP/WER retention while preserving user data and the Recycle Bin by default |
 | Toolkit Self Check | Validates required commands, paths, permissions, and runtime capabilities |
 
+## Screenshots
+
+### Main Menu
+
+The main interface organizes maintenance, diagnostics, troubleshooting, cleanup, and validation tools from one menu.
+
+![WinCare Toolkit Main Menu](docs/screenshots/main-menu.png)
+
+### System Health Audit
+
+A read-only system assessment covering uptime, memory, restart state, device health, stability, storage, security, and Windows image health.
+
+![WinCare Toolkit System Health Audit](docs/screenshots/system-health-audit.png)
+
+### Storage Report
+
+Read-only storage analysis showing common folder usage, large files, storage health, and available disk space.
+
+![WinCare Toolkit Storage Report](docs/screenshots/storage-report.png)
+
+### Toolkit Self Check
+
+Validates required Windows commands, system interfaces, event log access, security status access, and WinCare Toolkit directories.
+
+![WinCare Toolkit Self Check](docs/screenshots/toolkit-self-check.png)
+
 ## Safety first
 
 WinCare Toolkit is intentionally conservative.
@@ -141,7 +167,12 @@ WinCare-Toolkit/
 ├── Uninstall-Scheduled-Tasks.ps1
 ├── docs/
 │   ├── QUICK-START.md
-│   └── SAFETY.md
+│   ├── SAFETY.md
+│   └── screenshots/
+│       ├── main-menu.png
+│       ├── system-health-audit.png
+│       ├── storage-report.png
+│       └── toolkit-self-check.png
 ├── CHANGELOG.md
 ├── RELEASE-NOTES.md
 ├── SECURITY.md
