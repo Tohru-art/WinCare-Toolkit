@@ -1,68 +1,113 @@
-# WinCare Toolkit v2.3.2
+# WinCare Toolkit
 
-Windows maintenance and diagnostics toolkit built in PowerShell.
+> Safe Windows maintenance, diagnostics, cleanup, and troubleshooting from one PowerShell CLI.
 
-WinCare Toolkit provides one CLI for system health checks, conservative cleanup, security status, storage reporting, network troubleshooting, Windows repair, and maintenance logging. The toolkit is designed around explicit user confirmation and safe defaults.
+![Version](https://img.shields.io/badge/version-2.3.2-blue)
+![PowerShell](https://img.shields.io/badge/PowerShell-5.1%2B-5391FE?logo=powershell&logoColor=white)
+![Windows](https://img.shields.io/badge/Windows-10%20%7C%2011-0078D4?logo=windows&logoColor=white)
+![License](https://img.shields.io/badge/license-MIT-green)
 
-## Highlights
+WinCare Toolkit is a PowerShell-based Windows maintenance and diagnostics utility built around conservative defaults, clear reporting, and explicit user confirmation. It combines system health auditing, safe cleanup, security checks, storage analysis, network troubleshooting, Windows repair, and maintenance logging in one menu-driven toolkit.
 
-- Windows PowerShell 5.1 compatible CLI
-- System Health Audit with uptime, restart state, device health, stability, storage, security, firewall, and DISM health
-- Monthly Maintenance with conservative TEMP and WER cleanup
-- Security Check with registered antivirus detection, firewall state, and Quick Scan when supported
-- Read-only Storage Report with largest Downloads files and top-level profile folders
-- Network Troubleshooting for configuration, DNS flush, DHCP renewal, and confirmed Winsock reset
-- Windows Repair workflow using DISM ScanHealth, optional RestoreHealth, and SFC
-- Defender Full Scan only when Microsoft Defender is the active antivirus
-- Windows-native Recycle Bin cleanup with explicit EMPTY confirmation
-- Manual Aggressive Cleanup with 7-day TEMP and 14-day WER retention, plus optional full Recycle Bin emptying
-- Toolkit Self Check for required commands, paths, and runtime capabilities
-- Timestamped text logs and JSON history for each operation
+## Why WinCare Toolkit?
 
-## Safety model
+- One CLI for common Windows maintenance and diagnostic tasks
+- Safe defaults that avoid destructive system changes
+- Clear `[OK]`, `[INFO]`, and warning-oriented output
+- Timestamped text logs and JSON history
+- Read-only diagnostics where possible
+- Explicit confirmation before disruptive or destructive actions
+- Compatible with Windows PowerShell 5.1
 
-WinCare Toolkit uses conservative defaults. It does not automatically reboot Windows, run DISM /ResetBase, reset DNS or Winsock, renew DHCP, empty the Recycle Bin, delete browser profiles, delete game data, delete shader caches, modify BIOS settings, run registry cleaners, update drivers, or manually defragment SSD/NVMe drives.
+## Core features
 
-Destructive or disruptive troubleshooting actions remain opt-in. Recycle Bin cleanup requires a separate `EMPTY` confirmation. Aggressive Cleanup requires `CLEAN` before cleanup begins.
+| Feature | What it does |
+| --- | --- |
+| System Health Audit | Reviews uptime, restart state, devices, stability, storage, security, firewall, and Windows image health |
+| Monthly Maintenance | Performs conservative TEMP and WER cleanup plus supported Windows maintenance |
+| Security Check | Reports registered antivirus providers, active protection state, firewall status, and supported scan behavior |
+| Storage Report | Shows common folder usage, large Downloads files, top-level profile folders, and drive health |
+| Network Troubleshooting | Shows network configuration and provides opt-in DNS, DHCP, and Winsock actions |
+| Windows Repair | Runs DISM ScanHealth first, with optional RestoreHealth and SFC |
+| Defender Full Scan | Runs only when Microsoft Defender is the active antivirus |
+| Empty Recycle Bin | Permanently empties the Recycle Bin only after explicit confirmation |
+| Aggressive Cleanup | Uses shorter TEMP/WER retention while preserving user data and the Recycle Bin by default |
+| Toolkit Self Check | Validates required commands, paths, permissions, and runtime capabilities |
 
-## Requirements
+## Safety first
 
-- Windows 10 or Windows 11
-- Windows PowerShell 5.1
-- Administrator privileges
+WinCare Toolkit is intentionally conservative.
+
+It does not automatically:
+
+- Reboot Windows
+- Run DISM `/ResetBase`
+- Reset Winsock
+- Renew DHCP
+- Empty the Recycle Bin
+- Delete browser profiles or browser data
+- Delete game data or shader caches
+- Delete Downloads or Documents
+- Modify BIOS settings
+- Run registry cleaners
+- Update drivers
+- Manually defragment SSD/NVMe drives
+
+Potentially disruptive actions remain opt-in. Aggressive Cleanup requires `CLEAN`. Recycle Bin cleanup requires a separate `EMPTY` confirmation.
+
+See [Safety and Behavior](docs/SAFETY.md) for details.
 
 ## Quick start
 
-1. Download and extract the release ZIP.
-2. Run `Run-WinCare Toolkit v2.3.2.cmd`.
+### Requirements
+
+- Windows 10 or Windows 11
+- Windows PowerShell 5.1 or later
+- Administrator privileges
+
+### Run
+
+1. Download and extract the latest release ZIP.
+2. Run `Run-WinCare-Toolkit-v2.3.2.cmd`.
 3. Approve the Administrator prompt.
 4. Start with `System Health Audit` or `Toolkit Self Check`.
 5. Review the generated report and next steps.
 
-For a first installation, see [Quick Start](docs/QUICK-START.md).
+For first-time setup, see the [Quick Start Guide](docs/QUICK-START.md).
 
 ## Main menu
 
-| Option | Function |
-| --- | --- |
-| 1 | Monthly Maintenance |
-| 2 | System Health Audit |
-| 3 | Security Check |
-| 4 | Storage Report |
-| 5 | Network Troubleshooting |
-| 6 | Windows Repair |
-| 7 | Defender Full Scan |
-| 8 | Empty Recycle Bin |
-| 9 | Aggressive Cleanup |
-| 10 | Toolkit Self Check |
+| # | Function | Type |
+| ---: | --- | --- |
+| 1 | Monthly Maintenance | Maintenance |
+| 2 | System Health Audit | Diagnostic |
+| 3 | Security Check | Diagnostic |
+| 4 | Storage Report | Read-only |
+| 5 | Network Troubleshooting | Diagnostic / opt-in repair |
+| 6 | Windows Repair | Diagnostic / opt-in repair |
+| 7 | Defender Full Scan | Security |
+| 8 | Empty Recycle Bin | Destructive, confirmed |
+| 9 | Aggressive Cleanup | Manual cleanup |
+| 10 | Toolkit Self Check | Validation |
 
-## Maintenance policy
+## Maintenance behavior
 
-Default Monthly Maintenance removes TEMP files older than 14 days and archived Windows Error Reporting files older than 30 days. It preserves the Recycle Bin. It also runs DISM StartComponentCleanup without `/ResetBase`, checks restart state, storage health, antivirus and firewall state, and Windows image health.
+Monthly Maintenance uses a conservative cleanup policy:
 
-Aggressive Cleanup is manual only. It targets TEMP files older than 7 days and WER reports older than 14 days. The Recycle Bin stays preserved unless the user separately confirms a full Windows-native empty operation.
+- TEMP files older than 14 days
+- Archived Windows Error Reporting files older than 30 days
+- Recycle Bin preserved
+- DISM StartComponentCleanup without `/ResetBase`
+- Restart-state, storage, antivirus, firewall, and Windows image checks
 
-## Logs
+Aggressive Cleanup is manual only:
+
+- TEMP files older than 7 days
+- WER reports older than 14 days
+- Recycle Bin preserved unless separately confirmed
+- Browser data, game data, shader caches, Downloads, and Documents preserved
+
+## Reports and history
 
 WinCare Toolkit stores run data under:
 
@@ -71,29 +116,41 @@ C:\ProgramData\WinCare ToolkitV232\Logs
 C:\ProgramData\WinCare ToolkitV232\History
 ```
 
-Each top-level operation receives its own timestamped text log and JSON record. `Latest.json` provides the most recent JSON result.
+Each top-level operation creates a timestamped text log and JSON record. `Latest.json` contains the latest JSON result.
 
 ## Scheduled maintenance
 
 `Install-Monthly-Task.ps1` installs the supported monthly maintenance task. Run Monthly Maintenance manually at least once before enabling scheduling.
 
-An optional quarterly Microsoft Defender Full Scan installer is also included. Defender scans are skipped when Defender is not the active antivirus provider.
+`Install-Optional-Quarterly-Defender-Full-Scan.ps1` can install an optional quarterly Microsoft Defender Full Scan. Defender scans are skipped when Defender is not the active antivirus provider.
 
-To remove installed scheduled tasks, use `Uninstall-Scheduled-Tasks.ps1`.
+Use `Uninstall-Scheduled-Tasks.ps1` to remove installed WinCare scheduled tasks.
 
-## Screenshots
+## Project structure
 
-Add release screenshots under `docs/screenshots/`. Recommended captures:
-
-- Main menu
-- System Health Audit
-- Storage Report
-- Toolkit Self Check
-- Aggressive Cleanup result
+```text
+WinCare-Toolkit/
+├── WinCare-Toolkit-v2.3.2.ps1
+├── Run-WinCare-Toolkit-v2.3.2.cmd
+├── Run-System-Audit.cmd
+├── Run-Monthly-Maintenance.cmd
+├── Run-Aggressive-Cleanup.cmd
+├── Run-Toolkit-Self-Check.cmd
+├── Install-Monthly-Task.ps1
+├── Install-Optional-Quarterly-Defender-Full-Scan.ps1
+├── Uninstall-Scheduled-Tasks.ps1
+├── docs/
+│   ├── QUICK-START.md
+│   └── SAFETY.md
+├── CHANGELOG.md
+├── RELEASE-NOTES.md
+├── SECURITY.md
+└── LICENSE
+```
 
 ## Documentation
 
-- [Quick Start](docs/QUICK-START.md)
+- [Quick Start Guide](docs/QUICK-START.md)
 - [Safety and Behavior](docs/SAFETY.md)
 - [Changelog](CHANGELOG.md)
 - [Release Notes](RELEASE-NOTES.md)
@@ -101,7 +158,9 @@ Add release screenshots under `docs/screenshots/`. Recommended captures:
 
 ## Release status
 
-V2.3.2 is the stable CLI baseline. Core functions have been manually tested on Windows before release packaging.
+Current stable CLI baseline: `v2.3.2`
+
+Core functions have been manually tested on Windows before release packaging. WinCare Toolkit remains focused on predictable behavior, transparent output, and conservative maintenance.
 
 ## License
 
