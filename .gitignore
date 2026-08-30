@@ -1,0 +1,5 @@
+*.log
+*.json
+*.zip
+.DS_Store
+Thumbs.db
