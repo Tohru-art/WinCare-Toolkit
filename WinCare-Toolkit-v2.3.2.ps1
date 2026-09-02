@@ -481,7 +481,7 @@ Add-Type -TypeDefinition @"
 using System;
 using System.Runtime.InteropServices;
 
-public static class WinCare ToolkitFileOps {
+public static class WinCareToolkitFileOps {
     [StructLayout(LayoutKind.Sequential, CharSet = CharSet.Unicode)]
     public struct SHFILEOPSTRUCT {
         public IntPtr hwnd;
@@ -508,16 +508,16 @@ function Remove-PathPermanentSilent([string]$Path) {
     if(-not $Path){return $false}
     try{
         $from = $Path + [char]0 + [char]0
-        $op = New-Object WinCare ToolkitFileOps+SHFILEOPSTRUCT
+        $op = New-Object WinCareToolkitFileOps+SHFILEOPSTRUCT
         $op.hwnd = [IntPtr]::Zero
-        $op.wFunc = [WinCare ToolkitFileOps]::FO_DELETE
+        $op.wFunc = [WinCareToolkitFileOps]::FO_DELETE
         $op.pFrom = $from
         $op.pTo = $null
-        $op.fFlags = [WinCare ToolkitFileOps]::FOF_SILENT -bor [WinCare ToolkitFileOps]::FOF_NOCONFIRMATION -bor [WinCare ToolkitFileOps]::FOF_NOERRORUI
+        $op.fFlags = [WinCareToolkitFileOps]::FOF_SILENT -bor [WinCareToolkitFileOps]::FOF_NOCONFIRMATION -bor [WinCareToolkitFileOps]::FOF_NOERRORUI
         $op.fAnyOperationsAborted = $false
         $op.hNameMappings = [IntPtr]::Zero
         $op.lpszProgressTitle = $null
-        $result = [WinCare ToolkitFileOps]::SHFileOperation([ref]$op)
+        $result = [WinCareToolkitFileOps]::SHFileOperation([ref]$op)
         return ($result -eq 0 -and -not $op.fAnyOperationsAborted)
     }catch{
         return $false
